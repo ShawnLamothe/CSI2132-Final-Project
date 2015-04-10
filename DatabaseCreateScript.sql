@@ -1,12 +1,21 @@
+CREATE TABLE Restaurant(
+	restaurantId SERIAL,
+	name VARCHAR(50) NOT NULL,
+	type VARCHAR(20) NOT NULL,
+	url  VARCHAR(50),
+	overallRating Integer DEFAULT 1,
+	CHECK (overallRating >= 1 AND overallRating <= 5),
+	PRIMARY KEY (restaurantId)
+);
+
 CREATE TABLE Rater(
-	userId VARCHAR(15),
+	userId VARCHAR(20),
 	password VARCHAR(15) NOT NULL,
-	email VARCHAR(20) NOT NULL,
+	email VARCHAR(50) NOT NULL,
 	name VARCHAR(15),
 	join_date DATE NOT NULL,
 	type VARCHAR(11) DEFAULT 'online', 
 	reputation INTEGER DEFAULT 1,
-	CHECK (LEN(password) >= 8),
 	CHECK (reputation >= 1 AND reputation <= 5),
 	CHECK (type = 'online' OR type = 'blog' OR type = 'food critic'),
 	PRIMARY KEY (userId)
@@ -33,33 +42,8 @@ CREATE TABLE Rating(
 	FOREIGN KEY(restaurantId) REFERENCES Restaurant(restaurantId)
 );
 
-CREATE TABLE Restaurant(
-	restaurantId INTEGER AUTO_INCREMENT,
-	name VARCHAR(50) NOT NULL,
-	type VARCHAR(20) NOT NULL,
-	url  VARCHAR(50),
-	overallRating Integer DEFAULT 1,
-	CHECK (overallRating >= 1 AND overallRating <= 5)
-	PRIMARY KEY (restaurantId)
-);
-
-CREATE TABLE Location(
-	locationId INTEGER AUTO_INCREMENT,
-	first_open_date DATE NOT NULL,
-	manager_name VARCHAR(20) NOT NULL,
-	phone_number VARCHAR(14) NOT NULL,
-	street_address VARCHAR(30) NOT NULL,
-	hoursId INTEGER,
-	restaurantId INTEGER,
-	CHECK(LEN(phone_number) = 12 OR LEN(phone_number) = 14),
-	PRIMARY KEY(locationId),
-	FOREIGN KEY(hoursId) REFERENCES Hours(hoursId),
-	FOREIGN KEY(restaurantId) REFERENCES Restaurant(restaurantId)
-		 ON DELETE CASCADE
-);
-
 CREATE TABLE Hours(
-	hoursId INTEGER AUTO_INCREMENT,
+	hoursId SERIAL,
 	weekDayOpen TIME,
 	weekDayClose TIME,
 	weekendOpen TIME,
@@ -67,8 +51,22 @@ CREATE TABLE Hours(
 	PRIMARY KEY (hoursId)
 );
 
+CREATE TABLE Location(
+	locationId SERIAL,
+	first_open_date DATE NOT NULL,
+	manager_name VARCHAR(20) NOT NULL,
+	phone_number VARCHAR(14) NOT NULL,
+	street_address VARCHAR(30) NOT NULL,
+	hoursId INTEGER,
+	restaurantId INTEGER,
+	PRIMARY KEY(locationId),
+	FOREIGN KEY(hoursId) REFERENCES Hours(hoursId),
+	FOREIGN KEY(restaurantId) REFERENCES Restaurant(restaurantId)
+		 ON DELETE CASCADE
+);
+
 CREATE TABLE MenuItem(
-	itemId INTEGER AUTO_INCREMENT,
+	itemId SERIAL,
 	restaurantId INTEGER,
 	name VARCHAR(20),
 	type VARCHAR(20),

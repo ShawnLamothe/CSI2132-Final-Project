@@ -1,8 +1,8 @@
 <div id="header"> USER LOGIN FORM</div>
 	<form method="POST" action="">
-		<p>Student #: <input type="text" name="studentnum" id="studentnum"/></p>
-		<p>Password: <input type="password" name="userpassword" id="userpassword" /></p>
+		<p>User Identifier: <input type="text" name="userId" id="UserId"/></p>
+		<p>Password: <input type="password" name="password" id="password" /></p>
 		<p><input type="submit" value="login" name="login" /></p>
 	</form>
-	<a href="register.php">Register</a>
+	<a href="/~shawnlamothe/CSI2132/CSI2132-Final-Project/register/">Register</a>
 </body>
