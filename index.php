@@ -29,6 +29,7 @@
 			$router->map('GET', '/profile/', 'profile.php', 'profile');
 			$router->map('GET', '/funfacts/', 'funfacts.php', 'fun-facts');
 			$router->map('POST', '/restaurants/restaurantFind.php', 'restaurantFind.php', 'restaurantFind');
+			$router->map('POST', '/restaurants/filterRestaurants.php', 'filterRestaurants.php', 'filterRestaurants');
 
 
 			/*Match the current request */
@@ -187,9 +188,6 @@
 				</div>
 			</div>
 		</nav>
-		<p>
-		<br> <br> <br> <br>
-		</p>
 		<?php 
 			$_SESSION['page'] = $match['target'];
 			require $match['target'];

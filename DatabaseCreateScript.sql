@@ -9,10 +9,10 @@ CREATE TABLE Restaurant(
 );
 
 CREATE TABLE Rater(
-	userId VARCHAR(20),
+	userId VARCHAR(50),
 	password VARCHAR(15) NOT NULL,
 	email VARCHAR(50) NOT NULL,
-	name VARCHAR(15),
+	name VARCHAR(50),
 	join_date DATE NOT NULL,
 	type VARCHAR(11) DEFAULT 'online', 
 	reputation INTEGER DEFAULT 1,
@@ -22,7 +22,7 @@ CREATE TABLE Rater(
 );
 
 CREATE TABLE Rating(
-	userId VARCHAR(15),
+	userId VARCHAR(50),
 	post_date DATE,
 	restaurantId INTEGER,
 	price_rating INTEGER NOT NULL,
@@ -54,9 +54,9 @@ CREATE TABLE Hours(
 CREATE TABLE Location(
 	locationId SERIAL,
 	first_open_date DATE NOT NULL,
-	manager_name VARCHAR(20) NOT NULL,
+	manager_name VARCHAR(50) NOT NULL,
 	phone_number VARCHAR(14) NOT NULL,
-	street_address VARCHAR(30) NOT NULL,
+	street_address VARCHAR(100) NOT NULL,
 	hoursId INTEGER,
 	restaurantId INTEGER,
 	PRIMARY KEY(locationId),
@@ -68,7 +68,7 @@ CREATE TABLE Location(
 CREATE TABLE MenuItem(
 	itemId SERIAL,
 	restaurantId INTEGER,
-	name VARCHAR(20),
+	name VARCHAR(50),
 	type VARCHAR(20),
 	category VARCHAR(20),
 	description VARCHAR(100),
@@ -80,7 +80,7 @@ CREATE TABLE MenuItem(
 );
 
 CREATE TABLE RatingItem(
-	userId VARCHAR(15),
+	userId VARCHAR(50),
 	post_date DATE,
 	itemId INTEGER,
 	rating INTEGER,

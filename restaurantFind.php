@@ -18,14 +18,24 @@
 						</thead>
 						<tbody>";
 		while($row=pg_fetch_array($result)) {
-			$retval .= "<tr>
-							<td>".$row[1]."</td>
+			$retVal .= "<tr>
+							<td>
+								<div class='col-sm-6 text-left'>"
+								.$row[1].
+								"</div>
+								<div class='col-sm-6 text-right'>
+										<button type='submit' class='btn btn-default btn-sm'
+											 data-toggle='modal' data-target='#ratingModal'>Rate</button>
+										<button type='submit' class='btn btn-default btn-sm'>More Details</button>
+									</form>
+								</div>
+							</td>
 							<td>".$row[2]."</td>
 							<td>".$row[3]."</td>
 							<td>".$row[4]."</td>
 						</tr>";
 		}
-		$retval .= "</tbody>
+		$retVal .= "</tbody>
 						</table>";
 	} else {
 		$retVal = "No matches!";
