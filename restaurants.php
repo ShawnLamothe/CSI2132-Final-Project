@@ -96,5 +96,5 @@
 		</div>
 	</div>
 </div>
-<script language="javascript" type='text/javascript' src="/~shawnlamothe/CSI2132/CSI2132-Final-Project/restaurantList.js"></script>
-<script language="javascript" type='text/javascript' src="/~shawnlamothe/CSI2132/CSI2132-Final-Project/ratingWidget.js"></script>
+<script language="javascript" type='text/javascript' src="$ABSOLUTE_PATH/restaurantList.js"></script>
+<script language="javascript" type='text/javascript' src="$ABSOLUTE_PATHs/ratingWidget.js"></script>

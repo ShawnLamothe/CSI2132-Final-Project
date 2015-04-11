@@ -9,12 +9,13 @@
   		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 		<?php
+			require 'absolute_path.php';
 			//set up routes 
 			header("Content-Type: text/html");
 			include dirname(__FILE__) . '/vendor/altorouter/altorouter/AltoRouter.php';
 
 			$router = new AltoRouter();
-			$router->setBasePath('/~shawnlamothe/CSI2132/CSI2132-Final-Project');
+			$router->setBasePath($ABSOLUTE_PATH);
 			/* Setup the URL routing. */
 
 			//Main routes
@@ -129,27 +130,27 @@
 								echo "<li class='active'> <a>Home</a></li>";
 							}
 							else {
-								echo "<li><a href='/~shawnlamothe/CSI2132/CSI2132-Final-Project/'>Home</a></li>";
+								echo "<li><a href='$ABSOLUTE_PATH/home/'>Home</a></li>";
 							}
 							if($match['target']=='restaurants.php') {
 								echo "<li class='active'><a>Find a Restaurant</a></li>";
 							} else {
-								echo "<li><a href ='/~shawnlamothe/CSI2132/CSI2132-Final-Project/restaurants/'>Find a Restaurant</a></li>";
+								echo "<li><a href ='$ABSOLUTE_PATH/restaurants/'>Find a Restaurant</a></li>";
 							}
 							if($match['target']=='raters.php') {
 								echo "<li class='active'><a>Find a Rater</a></li>";
 							} else {
-								echo "<li><a href ='/~shawnlamothe/CSI2132/CSI2132-Final-Project/raters/'>Find a Rater</a></li>";
+								echo "<li><a href ='$ABSOLUTE_PATH/raters/'>Find a Rater</a></li>";
 							}
 							if($match['target']=='funfacts.php') {
 								echo "<li class='active'><a>Fun Facts</a></li>";
 							} else {
-								echo "<li><a href ='/~shawnlamothe/CSI2132/CSI2132-Final-Project/funfacts/'>Find a Restaurant</a></li>";
+								echo "<li><a href ='$ABSOLUTE_PATH/funfacts/'>Fun Facts</a></li>";
 							}
 							if($match['target']=='profile.php') {
 								echo "<li class='active'><a>My Profile</a></li>";
 							} else {
-								echo "<li><a href ='/~shawnlamothe/CSI2132/CSI2132-Final-Project/profile/'>My Profile</a></li>";
+								echo "<li><a href ='$ABSOLUTE_PATH/profile/'>My Profile</a></li>";
 							}
 						 ?>
 					</ul>
@@ -157,11 +158,11 @@
 						<?php 
 							if(!isset($_SESSION['currentUser'])) {
 								if($match['target'] != 'register.php') {
-									echo "<li><a href='/~shawnlamothe/CSI2132/CSI2132-Final-Project/register/'>
+									echo "<li><a href='$ABSOLUTE_PATH/register/'>
 										<span class='glyphicon glyphicon-user'></span> Sign Up</a></li>";
 								}
 								echo "<li>
-										<form method='POST' action='/~shawnlamothe/CSI2132/CSI2132-Final-Project/login/' class='form-inline' role='form' id='loginForm'>
+										<form method='POST' action='$ABSOLUTE_PATH/login/' class='form-inline' role='form' id='loginForm'>
 											<div class='form-group'>
 												<label for='userId'>User ID:</label>
 												<input type='text' class='form-control input-sm' id='userId' name='userId' placeholder='Enter User ID'/>
@@ -178,7 +179,7 @@
 								$name = $_SESSION['currentUser'][3];
 								echo "<li><a>$name</a></li>";
 								echo "<li>
-										<a href='/~shawnlamothe/CSI2132/CSI2132-Final-Project/logout/''>
+										<a href='$ABSOLUTE_PATH/logout/''>
 											<span class='glyphicon glyphicon-log-out'></span>
 											Log Out
 										</a>
