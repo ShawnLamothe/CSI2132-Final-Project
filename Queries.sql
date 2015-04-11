@@ -135,6 +135,8 @@ SELECT U.name, U.join_date, U.reputation, R.name, R8.post_date FROM Rater U, Res
 -- prices of the menu items they discuss. (Here Restaurant Z refers to a restaurant of your own
 -- choice, e.g. Ma Cuisine).
 
+-- do one ot the the or or both
+
 SELECT U.name, U.reputation, R8.comment, 
 
 -- n. Find the names and emails of all raters who gave ratings that are lower than that of a rater with
@@ -154,6 +156,8 @@ SELECT U.name, U.email FROM Rater U WHERE
 -- information together with the restaurants names and the ratings. For example, Jane Doe may
 -- have rated the Food at the Imperial Palace restaurant as a 1 on 1 January 2015, as a 5 on 15
 -- January 2015, and a 3 on 4 February 2015.  Clearly, she changes her mind quite often.
+
+-- use standard deviaton
 
 SELECT U.name, U.type, U.emails, R.name, R8. 
 

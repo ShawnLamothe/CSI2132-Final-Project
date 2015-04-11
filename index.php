@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<title>Insert Clever Title</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+  		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 		<?php
 			//set up routes 
 			header("Content-Type: text/html");
@@ -14,19 +20,22 @@
 			$router->map('GET', '/', 'home.php', 'home');
 			$router->map('GET', '/home/', 'home.php', 'home-home');
 			$router->map('GET', '/login/', 'login.php', 'login-form');
-			$router->map('POST', '/login/', 'home.php', 'login-action');
+			$router->map('POST', '/login/', '', 'login-action');
+			$router->map('GET', '/logout/', '', 'logout');
 			$router->map('GET', '/register/', 'register.php', 'register-form');
 			$router->map('POST', '/register/', 'login.php', 'register-action');
 			$router->map('GET', '/restaurants/', 'restaurants.php', 'restaurants');
 			$router->map('GET', '/raters/', 'raters.php', 'raters');
 			$router->map('GET', '/profile/', 'profile.php', 'profile');
 			$router->map('GET', '/funfacts/', 'funfacts.php', 'fun-facts');
+			$router->map('POST', '/restaurants/restaurantFind.php', 'restaurantFind.php', 'restaurantFind');
 
 
 			/*Match the current request */
 			$match = $router->match();
 			if(!$match) {
 				header("HTTP/1.0 404 Not Found");
+
 				require '404.html';
 				exit;
 			}
@@ -51,13 +60,13 @@
 					die("Error in SQL query:" .pg_last_error());
 					exit;
 				}
+				$match['target'] = $_SESSION['page'];
 				$row_count = pg_num_rows($result);
 				if($row_count > 0) {
 					$row = pg_fetch_array($result);
 					$_SESSION['currentUser'] = $row;
 				}
 				else {
-					$match['target'] = 'login.php';
 					echo "Invalid Username or Passowrd";
 				}
 			}
@@ -97,28 +106,92 @@
 						}
 					}
 				}
-			}
-
-			//check to see if user is currently not logged in to set login link
-			if(!isset($_SESSION['currentUser'])) {
-				if($match['target'] != 'login.php' && $match['target'] != 'register.php') {
-					echo "Please " . "<a href=/~shawnlamothe/CSI2132/CSI2132-Final-Project/login/>Login</a>";
-				}
+			} 
+			else if($match["name"] == 'logout') {
+				$match['target'] = $_SESSION['page'];
+				unset($_SESSION['currentUser']);
 			}
 		  ?>
-
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
-		<title>Insert Clever Title</title>
 	</head>
 
 	<body>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">Insert Clever Food Title</a>
+				</div>
+				<div>
+					<ul class="nav navbar-nav">
+						<?php 
+							if($match['target']=='home.php') {
+								echo "<li class='active'> <a>Home</a></li>";
+							}
+							else {
+								echo "<li><a href='/~shawnlamothe/CSI2132/CSI2132-Final-Project/'>Home</a></li>";
+							}
+							if($match['target']=='restaurants.php') {
+								echo "<li class='active'><a>Find a Restaurant</a></li>";
+							} else {
+								echo "<li><a href ='/~shawnlamothe/CSI2132/CSI2132-Final-Project/restaurants/'>Find a Restaurant</a></li>";
+							}
+							if($match['target']=='raters.php') {
+								echo "<li class='active'><a>Find a Rater</a></li>";
+							} else {
+								echo "<li><a href ='/~shawnlamothe/CSI2132/CSI2132-Final-Project/raters/'>Find a Rater</a></li>";
+							}
+							if($match['target']=='funfacts.php') {
+								echo "<li class='active'><a>Fun Facts</a></li>";
+							} else {
+								echo "<li><a href ='/~shawnlamothe/CSI2132/CSI2132-Final-Project/funfacts/'>Find a Restaurant</a></li>";
+							}
+							if($match['target']=='profile.php') {
+								echo "<li class='active'><a>My Profile</a></li>";
+							} else {
+								echo "<li><a href ='/~shawnlamothe/CSI2132/CSI2132-Final-Project/profile/'>My Profile</a></li>";
+							}
+						 ?>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<?php 
+							if(!isset($_SESSION['currentUser'])) {
+								if($match['target'] != 'register.php') {
+									echo "<li><a href='/~shawnlamothe/CSI2132/CSI2132-Final-Project/register/'>
+										<span class='glyphicon glyphicon-user'></span> Sign Up</a></li>";
+								}
+								echo "<li>
+										<form method='POST' action='/~shawnlamothe/CSI2132/CSI2132-Final-Project/login/' class='form-inline' role='form' id='loginForm'>
+											<div class='form-group'>
+												<label for='userId'>User ID:</label>
+												<input type='text' class='form-control input-sm' id='userId' name='userId' placeholder='Enter User ID'/>
+											</div>
+											<div class='form-group'>
+												<label for='password'>Password:</label>
+												<input type='password' class='form-control input-sm' id='password' name='password' placeholder='Enter Password'/>
+											</div>
+											<button type='submit' form = 'loginForm' class='btn btn-default btn-xs' value='login' name='login'>Login</button>
+										</form>
+									</li>";
+							}
+							else{
+								$name = $_SESSION['currentUser'][3];
+								echo "<li><a>$name</a></li>";
+								echo "<li>
+										<a href='/~shawnlamothe/CSI2132/CSI2132-Final-Project/logout/''>
+											<span class='glyphicon glyphicon-log-out'></span>
+											Log Out
+										</a>
+									  </li>";
+							}
+						 ?>
+					</ul>
+				</div>
+			</div>
+		</nav>
 		<p>
-			<a href="/~shawnlamothe/CSI2132/CSI2132-Final-Project/restaurants/">Search For A Restautant</a>
-			<a href="/~shawnlamothe/CSI2132/CSI2132-Final-Project/raters/">Find a Rater</a>
-			<a href="/~shawnlamothe/CSI2132/CSI2132-Final-Project/profile/">Profile</a>
-			<a href="/~shawnlamothe/CSI2132/CSI2132-Final-Project/funfacts/">Fun Facts</a>
+		<br> <br> <br> <br>
 		</p>
 		<?php 
+			$_SESSION['page'] = $match['target'];
 			require $match['target'];
 	 	?>
 	</body>
