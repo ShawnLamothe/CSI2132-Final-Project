@@ -1,6 +1,14 @@
 
 $(document).ready(function(){
 	$("#queryCResult").hide();
+	console.log('here');
+	$.post("./queries.php", {query: 'D_helper'}, function(data){
+		console.log('here');
+		if(data.length>0){
+			console.log('here');
+			$("#select_D").html(data);
+		}
+	});
 });
 
 $('#type_selection_C').change(function() {
