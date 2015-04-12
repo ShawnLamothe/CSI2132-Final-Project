@@ -55,7 +55,8 @@
 		$restaurantName = $_POST['restaurantName'];
 		$d_query = "SELECT MI.name, MI.price, L.manager_name, H.weekdayOpen, H.weekendOpen, R.url FROM 
 		final_project.Restaurant R, final_project.Location L, final_project.Hours H, final_project.MenuItem MI WHERE
-		MI.price >= all(Select MI1.price FROM final_project.MenuItem MI1) AND
+		MI.price >= all(Select MI1.price FROM final_project.MenuItem MI1 WHERE
+				MI1.restaurantId = R.restaurantId) AND
 			R.restaurantId = L.restaurantId AND L.hoursId = H.hoursId AND
 			MI.restaurantId = R.restaurantId AND R.name=$1";
 		$statement = pg_prepare($databaseConnection, "d_query", $d_query);
