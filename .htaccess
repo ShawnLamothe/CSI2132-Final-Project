@@ -1,4 +1,4 @@
 RewriteEngine on
 RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule . ~shawnlamothe/CSI2132/CSI2132-Final-Project/index.php [L]
+RewriteRule . CSI2132-Final-Project/index.php [L]
