@@ -40,6 +40,7 @@
 			$router->map('POST', '/restaurants/submitMenuRating.php', 'submitMenuRating.php', 'submitMenuRating');
 			$router->map('POST', '/restaurants/', 'restaurants.php', 'viewRestaurant');
 			$router->map('POST', '/menu-item/', 'restaurants.php', 'viewMenuItem');
+			$router->map('POST', '/funfacts/queries.php', 'queries.php', 'query');
 
 			/*Match the current request */
 			$match = $router->match();
