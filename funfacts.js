@@ -23,7 +23,7 @@ $('#select_D').change(function() {
 	$("#queryDResult").show();
 	var search_val=$("#select_D").val();
 	console.log("here");
-	$.post("./queries.php", {query: 'D', restaurantName : search_val}, function(data){
+	$.post("./queries.php", {query: 'D', restaurant_name : search_val}, function(data){
 		console.log("here");
 		if(data.length>0) {
 			console.log("here");

@@ -33,12 +33,12 @@ Select L.manager_name, L.first_open_date FROM Location L WHERE
 -- information together with the name of manager, the opening hours, and the URL of the
 -- restaurant. The user should be able to select the restaurant name (e.g. El Camino) from a list.
 
-Select MI.name, MI.price, L.manager_name, H.mondayOpen, H.tuesdayOpen, H.wednesdayOpen,
-	H.thursdayOpen, H.fridayOpen, H.saturdayOpen, H.sundayOpen, R.url FROM 
-		Restaurant R, Location L, Hours H, MenuItem MI WHERE
-		MI.price >= all(Select MI1.price FROM MenuItem MI1) AND
+Select MI.name, MI.price, L.manager_name, H.weekdayOpen, H.weekendOpen, R.url FROM 
+		final_project.Restaurant R, final_project.Location L, final_project.Hours H, final_project.MenuItem MI WHERE
+		MI.price >= all(Select MI1.price FROM final_project.MenuItem MI1 WHERE
+				MI1.restaurantId = R.restaurantId) AND
 			R.restaurantId = L.restaurantId AND L.hoursId = H.hoursId AND
-			MI.restaurantId = R.restaurantId;
+			MI.restaurantId = R.restaurantId AND R.name ='Shawns Salad';
 
 -- e. For each type of restaurant (e.g. Indian or Irish) and the category of menu item (appetiser, main
 -- or desert), list the average prices of menu items for each category.   
