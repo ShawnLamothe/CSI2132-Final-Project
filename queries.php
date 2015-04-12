@@ -45,7 +45,7 @@
 			}
 		}
 		else {
-			$retVal .= "<option>No Restaurants</option>"
+			$retVal .= "<option>No Restaurants</option>";
 		}
 		echo $retVal;
 	}
