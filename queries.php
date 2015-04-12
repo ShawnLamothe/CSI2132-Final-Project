@@ -46,6 +46,7 @@
 		}
 		else {
 			$retVal .= "<option>No Restaurants</option>";
+
 		}
 		echo $retVal;
 	}
@@ -89,6 +90,7 @@
 		}
 		else {
 			$retVal .= "<p>Query Failed!</p>";
+
 		}
 		echo $retVal;
 	}
