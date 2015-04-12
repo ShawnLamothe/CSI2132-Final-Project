@@ -33,8 +33,11 @@ $('#select_D').change(function() {
 });
 
 function queryE() {
-	$.post(".queries.php", {query : 'E'}, function(data) {
+	console.log('here');
+	$.post("./queries.php", {query : 'E'}, function(data) {
+		console.log('here');
 		if(data>0) {
+			console.log('here');
 			$("#queryEResult").html(data);
 		}
 	});

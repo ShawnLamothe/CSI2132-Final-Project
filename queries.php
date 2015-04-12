@@ -95,7 +95,43 @@
 		}
 		echo $retVal;
 	}
+
+
 	else if($_POST['query'] == 'E') {
-		
+		$e_query = "SELECT R.type, MI.category, AVG(MI.price) AS average_price FROM final_project.MenuItem MI, final_project.Restaurant R GROUP BY
+  	R.type HAVING
+		R.restaurantId = (SELECT MI.restaurantId FROM final_project.MenuItem MI GROUP BY MI.category)";
+		$statement = pg_prepare($databaseConnection, "e_query", $e_query);
+		$result = pg_execute($databaseConnection, "e_query", array());
+
+		$retVal = "";
+		if($result) {
+			$retVal .= "<table class='table table-striped table-borderd table-hover table-condensed'>
+							<thead>
+								<tr>
+									<th>Restaurant Type</th>
+									<th>Meal Category</th>
+									<th>Average Price</th>
+									<th>Weekday Opening</th>
+								<tr>
+							</thead>
+							<tbody>";
+			while($row = pg_fetch_array($result)) {
+				$retVal .= "<tr>
+								<td>$row[0]</td>
+								<td>$row[1]</td>
+								<td>$row[2]</td>
+								<td>$row[3]</td>
+							</tr>";
+			}
+				$retVal .=		"</tbody>
+							</table>";
+		}
+		else {
+			$retVal .= "<p>Query Failed!</p>";
+
+		}
+		echo $retVal;
 	}
+
  ?>

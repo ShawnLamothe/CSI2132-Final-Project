@@ -43,7 +43,8 @@
  	<div class="row">
  		<div class="row">
 	 		<p>
-	 		
+	 			-- e. For each type of restaurant (e.g. Indian or Irish) and the category of menu item (appetiser, main
+				      or desert), list the average prices of menu items for each category.   
 	 		</p>
 	 		<button type="submit" class='btn btn-default btn-info btn-sm' onclick="queryE()">List</button>
  		</div>
