@@ -45,7 +45,50 @@
 			}
 		}
 		else {
-			$retVal .= "<option>No Restaurants</option>"
+			$retVal .= "<option>No Restaurants</option>";
+		}
+		echo $retVal;
+	}
+
+	else if($_POST['query'] == 'D') {
+		$restaurantName = $_POST['restaurantName'];
+		$d_query = "SELECT MI.name, MI.price, L.manager_name, H.weekdayOpen, H.weekendOpen, R.url FROM 
+		final_project.Restaurant R, final_project.Location L, final_project.Hours H, final_project.MenuItem MI WHERE
+		MI.price >= all(Select MI1.price FROM final_project.MenuItem MI1) AND
+			R.restaurantId = L.restaurantId AND L.hoursId = H.hoursId AND
+			MI.restaurantId = R.restaurantId AND R.name=$1";
+		$statement = pg_prepare($databaseConnection, "d_query", $d_query);
+		$result = pg_execute($databaseConnection, "d_query", array($restaurantName));
+
+		$retVal = "";
+		if($result) {
+			$retVal .= "<table class='table table-striped table-borderd table-hover table-condensed'>
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Price</th>
+									<th>Manager</th>
+									<th>Weekday Opening</th>
+									<th>Weekend Opening</th>
+									<th>URL</th>
+								<tr>
+							</thead>
+							<tbody>";
+			while($row = pg_fetch_array($result)) {
+				$retVal .= "<tr>
+								<td>$row[0]</td>
+								<td>$row[1]</td>
+								<td>$row[2]</td>
+								<td>$row[3]</td>
+								<td>$row[4]</td>
+								<td>$row[5]</td>
+							</tr>";
+			}
+				$retVal .=		"</tbody>
+							</table>";
+		}
+		else {
+			$retVal .= "<p>Query Failed!</p>";
 		}
 		echo $retVal;
 	}

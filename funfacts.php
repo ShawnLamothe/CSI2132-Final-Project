@@ -38,7 +38,7 @@
 				</div>
 			</form>
  		</div>
- 		<div class = "row" id="queryCResult"></div>
+ 		<div class = "row" id="queryDResult"></div>
  	</div>
  </div>
  <?php 
