@@ -31,4 +31,22 @@
 		}
 		echo $retVal;
 	}
+
+	else if ($_POST['query'] == 'D_helper') {
+		$D_helper_query = "SELECT R.Name FROM final_project.restaurant R";
+		$statement = pg_prepare($databaseConnection, "d_helper", $D_helper_query);
+		$result = pg_execute($databaseConnection, "d_helper", array());
+
+		$retVal = "";
+		if($result) {
+			
+			while($row = pg_fetch_array($result)) {
+				$retVal .= "<option value=$row[0]>$row[0]</option>";
+			}
+		}
+		else {
+			$retVal .= "<option>No Restaurants</option>"
+		}
+		echo $retVal;
+	}
  ?>
