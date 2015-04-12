@@ -11,12 +11,9 @@
   		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 		<?php
 
-<<<<<<< HEAD
-			$RESTAURANT_TYPESß = array('Indian','Burger', 'Misc', 'Health', 'Canadian', 'Bakery', 'Mexican', 'Coffee', 'Chinese', 'Thai', 'Sushi', 'Greek', 'Lebanese');
+			$RESTAURANT_TYPES = array('Indian','Burger', 'Misc', 'Health', 'Canadian', 'Bakery', 'Mexican', 'Coffee', 'Chinese', 'Thai', 'Sushi', 'Greek', 'Lebanese');
 			require 'absolute_path.php';
-=======
-			$RESTAURANT_TYPESß = array('Indian','Burger');
->>>>>>> 71aa9af6c5ef31c37fc89dfeb5309caa455971a1
+
 			require 'altorouter.php';
 
 			header("Content-Type: text/html");
