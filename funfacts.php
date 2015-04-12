@@ -12,9 +12,9 @@
 	 		<form role ="form" id="restaurantTypeSearchForm">
 				<div class ="form-group">
 					<label for="type">Select Restaurant Type:</label>
-					<select class="form-control" id="type_selection_C"onchange="run()">
+					<select class="form-control" id="type_selection_C">
 						<?php 
-							foreach($RESTAURANT_TYPE as $type) {
+							foreach($RESTAURANT_TYPES as $type) {
 								echo "<option value=$type>$type</option>";
 							}
 				 		?>
@@ -25,3 +25,6 @@
  		<div class = "row" id="queryCResult"></div>
  	</div>
  </div>
+ <?php 
+	echo "<script language='javascript' type='text/javascript' src='$ABSOLUTE_PATH/funfacts.js'></script>";
+ ?>

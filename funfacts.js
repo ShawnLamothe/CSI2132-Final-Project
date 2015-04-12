@@ -1,14 +1,14 @@
 
 $(document).ready(function(){
-	$("#queryCResults").hide();
+	$("#queryCResult").hide();
 });
 
 $('#type_selection_C').change(function() {
-	$("#queryCResults").show();
+	$("#queryCResult").show();
 	var search_val=$("#type_selection_C").val();
 	$.post("./queries.php", {query: 'C', restaurantType : search_val}, function(data){
 		if(data.length>0) {
-			$("#queryCResults").html(data);
+			$("#queryCResult").html(data);
 		}
 	});
 });

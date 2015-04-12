@@ -19,8 +19,7 @@
 				</div>
 				<div class ="form-group">
 					<label for='restaurant' id="restaurantTypeLabel">Select Restaurant:</label>
-					<select class='form-control' id='restaurantsByType' onchange="run()">;
-					</select>
+					<select class='form-control' id='restaurantsByType' onchange="run()">;</select>
 				</div>
 				<button type='submit' form ='restaurantTypeSearchForm' class='btn btn-default btn-sm' value='restaurantTypeSearch' name='restaurantTypeSearch' id="restaurantTypeSearchButton">Search</button>
 			</form>
