@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<?php require 'absolute_path.php'; ?>
 		<title>Insert Clever Title</title>
-		<link rel="stylesheet" type="text/css" href="/~shawnlamothe/CSI2132/CSI2132-Final-Project/ratingStyle.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo '$ABSOLUTE_PATH/ratingStyle.css' ?>">
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
   		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
@@ -11,7 +12,6 @@
 		<?php
 
 			$RESTAURANT_TYPESß = array('Indian','Burger');
-			require 'absolute_path.php';
 			require 'altorouter.php';
 
 			header("Content-Type: text/html");
