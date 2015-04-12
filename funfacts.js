@@ -42,3 +42,11 @@ function queryE() {
 		}
 	});
 }
+
+function queryF() {
+	$.post("./queries.php", {query : 'F'}, function(data) {
+		if(data>0) {
+			$("#queryFResult").html(data);
+		}
+	});
+}

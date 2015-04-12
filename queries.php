@@ -134,4 +134,40 @@
 		echo $retVal;
 	}
 
+		else if($_POST['query'] == 'F') {
+		$f_query = "SELECT U.name, R.name, COUNT(R8.*) FROM final_project.Rating R8, final_project.Restaurant R, final_project.Rater U WHERE
+	R8.restaurantId = R.restaurantId AND R8.userId = U.userId
+	 GROUP BY R.restaurantId"; 
+		$statement = pg_prepare($databaseConnection, "f_query", $f_query);
+		$result = pg_execute($databaseConnection, "f_query", array());
+
+		$retVal = "";
+		if($result) {
+			$retVal .= "<table class='table table-striped table-borderd table-hover table-condensed'>
+							<thead>
+								<tr>
+									<th>Restaurant Name</th>
+									<th>Rater Name</th>
+									<th>Number of Ratings</th>
+								<tr>
+							</thead>
+							<tbody>";
+			while($row = pg_fetch_array($result)) {
+				$retVal .= "<tr>
+								<td>$row[0]</td>
+								<td>$row[1]</td>
+								<td>$row[2]</td>
+							</tr>";
+			}
+				$retVal .=		"</tbody>
+							</table>";
+		}
+		else {
+			$retVal .= "<p>Query Failed!</p>";
+
+		}
+		echo $retVal;
+	}
+
+
  ?>

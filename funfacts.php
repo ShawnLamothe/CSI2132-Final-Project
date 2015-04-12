@@ -50,6 +50,12 @@
  		</div>
  		<div class = "row" id="queryEResult"></div>
  	</div>
+ 	<div class="row">
+ 		<div class="row">
+	 		<p>
+	 		</p>
+ 		</div>
+ 	</div>
  </div>
  <?php 
 	echo "<script language='javascript' type='text/javascript' src='$ABSOLUTE_PATH/funfacts.js'></script>";
