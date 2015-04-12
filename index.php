@@ -32,13 +32,15 @@
 			$router->map('GET', '/funfacts/', 'funfacts.php', 'fun-facts');
 			$router->map('POST', '/restaurants/restaurantFind.php', 'restaurantFind.php', 'restaurantFind');
 			$router->map('POST', '/restaurants/filterRestaurants.php', 'filterRestaurants.php', 'filterRestaurants');
-
+			$router->map('POST', '/restaurants/submitRating.php', 'submitRating.php', 'submitRating');
+			$router->map('POST', '/restaurants/submitMenuRating.php', 'submitMenuRating.php', 'submitMenuRating');
+			$router->map('POST', '/restaurants/', 'restaurants.php', 'viewRestaurant');
+			$router->map('POST', '/menu-item/', 'restaurants.php', 'viewMenuItem');
 
 			/*Match the current request */
 			$match = $router->match();
 			if(!$match) {
 				header("HTTP/1.0 404 Not Found");
-
 				require '404.html';
 				exit;
 			}
