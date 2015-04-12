@@ -9,10 +9,12 @@
   		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 		<?php
+
+			$RESTAURANT_TYPESß = array('Indian','Burger');
 			require 'absolute_path.php';
-			//set up routes 
+			require 'altorouter.php';
+
 			header("Content-Type: text/html");
-			include dirname(__FILE__) . '/vendor/altorouter/altorouter/AltoRouter.php';
 
 			$router = new AltoRouter();
 			$router->setBasePath($ABSOLUTE_PATH);

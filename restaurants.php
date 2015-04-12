@@ -1,6 +1,5 @@
 
 <?php 
-	$restaurantTypes = array('Indian','Burger');
 	include_once 'rating_stars.php';
  ?>
  <br><br><br><br>
@@ -12,7 +11,7 @@
 					<label for="type">Select Restaurant Type:</label>
 					<select class="form-control" id="type_selection"onchange="run()">
 						<?php 
-							foreach($restaurantTypes as $type) {
+							foreach($RESTAURANT_TYPESß as $type) {
 								echo "<option value=$type>$type</option>";
 							}
 				 		?>
@@ -250,7 +249,7 @@
 
 	<?php 
 		if($match['name'] == 'viewMenuItem') { 
-			
+
 	?>
 	<?php } ?>
 

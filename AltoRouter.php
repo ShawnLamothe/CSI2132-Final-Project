@@ -26,6 +26,15 @@ class AltoRouter {
 		$this->setBasePath($basePath);
 		$this->addMatchTypes($matchTypes);
 	}
+	
+	/**
+	 * Retrieves all routes.
+	 * Useful if you want to process or display routes.
+	 * @return array All routes.
+	 */
+	public function getRoutes() {
+		return $this->routes;
+	}
 
 	/**
 	 * Add multiple routes at once from array in the following format:
@@ -67,7 +76,7 @@ class AltoRouter {
 	/**
 	 * Map a route to a target
 	 *
-	 * @param string $method One of 4 HTTP Methods, or a pipe-separated list of multiple HTTP Methods (GET|POST|PUT|DELETE)
+	 * @param string $method One of 5 HTTP Methods, or a pipe-separated list of multiple HTTP Methods (GET|POST|PATCH|PUT|DELETE)
 	 * @param string $route The route regex, custom regex must start with an @. You can use multiple pre-set regex filters, like [i:id]
 	 * @param mixed $target The target where this route should point to. Can be anything.
 	 * @param string $name Optional name of this route. Supply if you want to reverse route this url in your application.
@@ -186,7 +195,8 @@ class AltoRouter {
 			if ($_route === '*') {
 				$match = true;
 			} elseif (isset($_route[0]) && $_route[0] === '@') {
-				$match = preg_match('`' . substr($_route, 1) . '`u', $requestUrl, $params);
+				$pattern = '`' . substr($_route, 1) . '`u';
+				$match = preg_match($pattern, $requestUrl, $params);
 			} else {
 				$route = null;
 				$regex = false;
