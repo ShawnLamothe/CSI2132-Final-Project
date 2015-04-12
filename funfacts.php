@@ -40,6 +40,15 @@
  		</div>
  		<div class = "row" id="queryDResult"></div>
  	</div>
+ 	<div class="row">
+ 		<div class="row">
+	 		<p>
+	 			
+	 		</p>
+	 		<button type="submit" class='btn btn-default btn-info btn-sm' onclick="queryE()">List</button>
+ 		</div>
+ 		<div class = "row" id="queryEResult"></div>
+ 	</div>
  </div>
  <?php 
 	echo "<script language='javascript' type='text/javascript' src='$ABSOLUTE_PATH/funfacts.js'></script>";

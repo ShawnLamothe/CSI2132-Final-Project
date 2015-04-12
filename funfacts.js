@@ -31,3 +31,11 @@ $('#select_D').change(function() {
 		}
 	});
 });
+
+function queryE() {
+	$.post(".queries.php", {query : 'E'}, function(data) {
+		if(data>0) {
+			$("#queryEResult").html(data);
+		}
+	});
+}

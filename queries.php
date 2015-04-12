@@ -95,4 +95,7 @@
 		}
 		echo $retVal;
 	}
+	else if($_POST['query'] == 'E') {
+		
+	}
  ?>
