@@ -218,11 +218,11 @@
 					  a name called John, in terms of the combined rating of Price, Food, Mood and Staff. (Note that
 					  there may be more than one rater with this name).
 	 		</p>
-	 		<button type="submit" class='btn btn-default btn-info btn-sm' value="N" onclick='closeBox(this)'>List</button>
+	 		<button type="submit" class='btn btn-default btn-info btn-sm' onclick="queryN()" >List</button>
  		</div>
  		<br>
  		 <div class="row text-right" id="closeN">
- 			<button type="submit" class='btn btn-default btn-sm' value='N' onclick='close()'>Close</button>
+ 			<button type="submit" class='btn btn-default btn-sm' value='N' onclick='closeBox(this)'>Close</button>
  		</div>
  		<div class = "row" id="queryNResult"></div>
  	</div>

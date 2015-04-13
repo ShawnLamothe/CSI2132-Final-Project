@@ -60,7 +60,7 @@
 		while($locationRow=pg_fetch_array($result)) {
 			$locations[$counter] = $locationRow;
 			$hoursQuery = "SELECT * FROM final_project.hours H WHERE H.hoursId =$1";
-			$statement = pg_prepare($databaseConnection, 'hoursQuery', $hoursQuery);
+			$statement = @pg_prepare($databaseConnection, 'hoursQuery', $hoursQuery);
 			$hoursResult = pg_execute($databaseConnection, 'hoursQuery', array($locationRow[5]));
 			$hoursRow =pg_fetch_array($hoursResult);
 			$hours[$counter] = $hoursRow;
@@ -280,8 +280,96 @@
 
 	<?php 
 		if($match['name'] == 'viewMenuItem') { 
+			$itemId = $_POST['menu_item_id'];
+			$menuItemQuery = "SELECT * FROM final_project.MenuItem M WHERE M.itemId = $1";
+			$statement = pg_prepare($databaseConnection, 'menuItemQuery', $menuItemQuery);
+			$menuResult = pg_execute($databaseConnection, 'menuItemQuery', array($itemId));
 
+			$menuItem = pg_fetch_array($menuResult);
 	?>
+
+	<div class="row" id="menuItemInfo">
+		<div class="row">
+			<div class="col-sm-3">
+				<h1><?php echo $menuItem[2];?></h1>
+			</div>
+		 		<div class="col-sm-2 text-right">
+		 			<br>
+		 			<input type='hidden' id='<?php echo "menuItemDelete$menuItem[0]" ?>' value="<?php echo $menuItem[2]?>"]>
+					<button type='submit' class='btn btn-danger bth-info btn-sm '
+						data-toggle='modal' data-target='#deleteMenuItemModal' name='deleteMenuItemButton' 
+							value="<?php  echo $menuItem[0]?>" id="<?php echo $menuItem[0] ?>" onclick='deleteMenuItemButton(this)'>Delete</button>
+		 		</div>
+		 		<div class="col-sm-7 text-left">
+		 			<br>
+		 			<input type='hidden' id='<?php echo "menuItem$menuItem[0]" ?>' value="<?php echo $menuItem[2]?>"]>
+					<button type='submit' class='btn btn-primary bth-info btn-sm '
+						data-toggle='modal' data-target='#menuRatingModal' name='menuRateButton' 
+							value="<?php  echo $menuItem[0]?>" id="<?php echo "menuRateButton$menuItem[0]" ?>" onclick='menuRateButton(this)'>Rate</button>
+		 		</div>
+		 	</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<h2>Information: </h2>
+				<p>
+					<label>Type: </label>
+					<?php echo $menuItem[3];?>
+				</p>
+				<p>
+					<label>Category: </label>
+					<?php echo $menuItem[4];?>
+				</p>
+				<p>
+					<label>Description: </label>
+					<?php echo $menuItem[5];?>
+				</p>
+				<p>
+					<label>Price: </label>
+					<?php echo $menuItem[6];?>
+				</p>
+			</div>
+		</div>
+		<?php 
+			$itemRatingQuery = "SELECT U.name, R.rating, R.comment, R.post_date FROM final_project.ratingItem R, final_project.rater U WHERE 
+					R.itemId = $1 AND R.userId = U.userId ORDER BY R.post_date desc LIMIT 10";
+			$statement = pg_prepare($databaseConnection, "itemRatingsQuery", $itemRatingQuery);
+			$result = pg_execute($databaseConnection, "itemRatingsQuery", array($menuItem[0]));
+			$ratings = [];
+			$counter = 0;
+			while($rating = pg_fetch_array($result)) {
+				$ratings[$counter] = $rating;
+				$counter++;
+			}
+		 ?>
+		 <div class="row">
+			<div class="col-sm-12">
+				<h2>Recent Ratings</h2>
+				<table class='table table-striped table-borderd table-hover table-condensed'>
+					<thead>
+						<tr>
+							<th>Rater</th>
+							<th>Rating</th>
+							<th>Comment</th>
+							<th>Rated On</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php 
+							foreach($ratings as $rating) {
+						 ?>
+						 		<tr>
+						 			<td><?php echo $rating[0] ?></td>
+						 			<td><?php call_user_func('ratingStar::create_stars', $rating[1]) ?></td>
+						 			<td><p><?php echo $rating[2] ?></p></td>
+						 			<td><?php echo $rating[3] ?></td>
+						 		</tr>
+						 <?php } ?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 	<?php } ?>
 
 	<div class="modal fade" id="ratingModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

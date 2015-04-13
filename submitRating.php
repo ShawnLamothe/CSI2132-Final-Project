@@ -14,6 +14,7 @@
 	$price_rating = substr($price_rating, -1);
 	$staff_rating = substr($staff_rating, -1);
 
+	$average = ($food_rating + $mood_rating + $price_rating + $staff_rating)/4;
 	$createRatingQuery="INSERT INTO final_project.rating(userId, post_date, restaurantId, 
 				price_rating, food_rating, mood_rating, staff_rating, comment) VALUES ($1, $2, $3, 
 				$4, $5, $6, $7, $8)";

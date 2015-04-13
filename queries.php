@@ -1,4 +1,5 @@
 <?php 
+	include_once 'rating_stars.php';
 	if($_POST['query'] == 'C') {
 		$restaurantType = $_POST['restaurantType'];
 		$c_query = "SELECT L.manager_name, L.first_open_date FROM final_project.Location L WHERE
@@ -160,7 +161,7 @@
 				$retVal .= "<tr>
 								<td>$row[0]</td>
 								<td>$row[1]</td>
-								<td>$row[2]</td>
+								<td>".call_user_func('ratingStar::create_stars_return', $row[2])."</td>
 								<td>$row[3]</td>
 							</tr>";
 			}
@@ -330,7 +331,7 @@
 			while($row = pg_fetch_array($result)) {
 				$retVal .= "<tr>
 								<td>$row[0]</td>
-								<td>$row[1]</td>
+								<td>".call_user_func('ratingStar::create_stars_return', $row[1])."</td>
 								<td>$row[2]</td>
 							</tr>";
 			}
@@ -371,7 +372,7 @@
 				$retVal .= "<tr>
 								<td>$row[0]</td>
 								<td>$row[1]</td>
-								<td>$row[2]</td>
+								<td>".call_user_func('ratingStar::create_stars_return', $row[2])."</td>
 								<td>$row[3]</td>
 								<td>$row[4]</td>
 							</tr>";
@@ -414,7 +415,7 @@
 				$retVal .= "<tr>
 								<td>$row[0]</td>
 								<td>$row[1]</td>
-								<td>$row[2]</td>
+								<td>".call_user_func('ratingStar::create_stars_return', $row[2])."</td>
 								<td>$row[3]</td>
 								<td>$row[4]</td>
 							</tr>";
@@ -477,7 +478,7 @@
 			while($row = pg_fetch_array($result)) {
 				$retVal .= "<tr>
 								<td>$row[0]</td>
-								<td>$row[1]</td>
+								<td>".call_user_func('ratingStar::create_stars_return', $row[1])."</td>
 								<td>$row[2]</td>
 							</tr>";
 			}
@@ -565,10 +566,10 @@
 								<td>$row[1]</td>
 								<td>$row[2]</td>
 								<td>$row[3]</td>
-								<td>$row[4]</td>
-								<td>$row[5]</td>
-								<td>$row[6]</td>
-								<td>$row[7]</td>
+								<td>".call_user_func('ratingStar::create_stars_return', $row[4])."</td>
+								<td>".call_user_func('ratingStar::create_stars_return', $row[5])."</td>
+								<td>".call_user_func('ratingStar::create_stars_return', $row[6])."</td>
+								<td>".call_user_func('ratingStar::create_stars_return', $row[7])."</td>
 								<td>$row[8]</td>
 							</tr>";
 			}
