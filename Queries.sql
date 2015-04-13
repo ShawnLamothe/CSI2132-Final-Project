@@ -25,6 +25,8 @@ Select MI.name, MI.price, MI.overallRating, MI.description, MI.category FROM Men
 -- that the locations have opened. The user should be able to select the category (e.g. Italian or
 -- Thai) from a list
 
+--CONFIRMED
+
 Select L.manager_name, L.first_open_date FROM Location L WHERE
 	L.restaurantId = (Select R.restaurantId FROM Restaurant R WHERE
 		R.category = restuarantCategory);
@@ -33,38 +35,52 @@ Select L.manager_name, L.first_open_date FROM Location L WHERE
 -- information together with the name of manager, the opening hours, and the URL of the
 -- restaurant. The user should be able to select the restaurant name (e.g. El Camino) from a list.
 
+--CONFIRMED
+
 Select MI.name, MI.price, L.manager_name, H.weekdayOpen, H.weekendOpen, R.url FROM 
 		final_project.Restaurant R, final_project.Location L, final_project.Hours H, final_project.MenuItem MI WHERE
 		MI.price >= all(Select MI1.price FROM final_project.MenuItem MI1 WHERE
 				MI1.restaurantId = R.restaurantId) AND
 			R.restaurantId = L.restaurantId AND L.hoursId = H.hoursId AND
-			MI.restaurantId = R.restaurantId AND R.name ='Shawns Salad';
+			MI.restaurantId = R.restaurantId AND R.name ='Make You Fat';
 
 -- e. For each type of restaurant (e.g. Indian or Irish) and the category of menu item (appetiser, main
 -- or desert), list the average prices of menu items for each category.   
 
-SELECT R.type, MI.category, AVG(MI.price) AS average_price FROM MenuItem MI, Restaurant R GROUP BY
-  	R.type HAVING
-		R.restaurantId = (SELECT MI.restaurantId FROM MenuItem MI GROUP BY MI.category);
+--CONFIRMED 
 
+SELECT R.type, MI.category, AVG(MI.price) AS average_price FROM final_project.MenuItem MI, final_project.Restaurant R 
+	WHERE
+		MI.restaurantId IN 
+		(SELECT R1.restaurantId FROM final_project.Restaurant R1 WHERE
+			R1.type = R.type)
+		AND MI.restaurantId = R.restaurantId
+	GROUP BY R.type, MI.category ORDER BY R.type, MI.category
 
 --------------------------- Ratings of restaurants ------------------------------------------------
 
 -- f. Find the total number of rating for each restaurant, for each rater. That is, the data should be
 -- grouped by the restaurant, the specific raters and the numeric ratings they have received.
-SELECT U.name, R.name, COUNT(R8.*) FROM Rating R8, Restaurant R, Rater U WHERE
+
+--CONFIRMED
+
+SELECT U.userId, R.name, AVG((R8.food_rating+R8.mood_rating+R8.staff_rating +R8.price_rating)/4) as average_rating, COUNT(R8.*)
+	FROM final_project.Rating R8, final_project.Restaurant R, final_project.Rater U WHERE
 	R8.restaurantId = R.restaurantId AND R8.userId = U.userId
-	 GROUP BY R.restaurantId; 
+	 GROUP BY R.name, U.userId ORDER BY R.name , average_rating 
 
 
 -- g. Display the details of the restaurants that have not been rated in January 2015. That is, you
 -- should display the name of the restaurant together with the phone number and the type of
 -- food.
 
-Select R.name, R.type, L.phone_number FROM Restaurant R, Location L WHERE 
-	NOT EXISTS(SELECT * FROM Rating R8 WHERE
-		DATEPART(yyyy,R8.post_date) = 2015 AND DATEPART(mm,R8.post_date) = 01)
-	AND R.restaurantId = L.restaurantId;
+--Confirmed
+
+Select R.name, R.type, L.phone_number FROM final_project.Restaurant R, final_project.Location L WHERE 
+	NOT EXISTS(SELECT * FROM final_project.Rating R8 WHERE
+		date_part('year',R8.post_date) = 2015 AND date_part('month',R8.post_date) = 01
+		AND R8.restaurantId = R.restaurantId)
+	AND R.restaurantId = L.restaurantId ORDER BY R.name;  
 
 -- h. Find the names and opening dates of the restaurants that obtained Staff rating that is lower
 -- than any rating given by rater X. Order your results by the dates of the ratings. (Here, X refers to
@@ -97,11 +113,13 @@ Select R.name, U.name FROM Restaurant R, Rater U WHERE
 -- restaurants.  (Here, Type Y refers to any restaurant type of your choice, e.g. Indian or Burger.)
 -- Yes, this query is open to your own interpretation!
 
+--PLAUSIBLE
+
 SELECT ROW_NUMBER() OVER(ORDER BY OverallRating DESC) AS Ranking, OverallRating, Type
  	FROM
 		(SELECT AVG(overallRating) AS OverallRating, R.type AS Type FROM
-		 	Restaurant R GROUP BY R.type) 
-	WHERE Type = $inputType;
+		 	final_project.Restaurant R GROUP BY R.type) as WhoCares
+	WHERE Type = 'Chinese';
 
 ---------------------------- Raters and their ratings ----------------------------------------------
 
@@ -109,25 +127,28 @@ SELECT ROW_NUMBER() OVER(ORDER BY OverallRating DESC) AS Ranking, OverallRating,
 -- terms of the Food and the Mood of restaurants. Display this information together with the
 -- names of the restaurant and the dates the ratings were done.
 
-SELECT U.name, U.join_date, U.reputation, R.name, R8.post_date FROM Rater U, Restaurant R, R8 Rating WHERE 
-	U.userId IN (SELECT U1.userId FROM Rater U1 HAVING
-		AVG(SELECT (Rate.mood_rating + Rate.food_rating) as OverallRating FROM Rating Rate WHERE
-			Rate.userId = U1.userId) 
-		>= ALL(SELECT OverallRating FROM (SELECT U2.userId FROM Rater U2 HAVING
-			AVG(SELECT (Rate.mood_rating + Rate.food_rating) as OverallRating FROM Rating Rate WHERE
-				Rate.userId = U1.userId))))
+--CONFIRMED
+
+SELECT U.name, U.join_date, U.reputation, R.name, R8.post_date FROM final_project.Rater U, final_project.Restaurant R, final_project.Rating R8 WHERE 
+	U.userId IN (SELECT U1.userId FROM final_project.Rater U1 group by U1.userId HAVING
+		(SELECT AVG(Rate.mood_rating + Rate.food_rating) FROM final_project.Rating Rate WHERE
+			Rate.userId = U1.userId)
+		>= ALL(SELECT AVG(Rate1.mood_rating + Rate1.food_rating) FROM final_project.Rating Rate1, final_project.Rater U2 WHERE
+			Rate1.userId = U2.userId GROUP BY U2.userId))
 	AND R8.userId = U.userId AND R8.restaurantId = R.restaurantId;
 
 -- l. Find the names and reputations of the raters that give the highest overall rating, in terms of the
 -- Food or the Mood of restaurants. Display this information together with the names of the
 -- restaurant and the dates the ratings were done.
 
-SELECT U.name, U.join_date, U.reputation, R.name, R8.post_date FROM Rater U, Restaurant R, R8 Rating WHERE
-	U.userId IN (SELECT U1.userId FROM Rater U1 WHERE
-		(SELECT AVG(mood_rating) FROM Rating Rate WHERE Rate.userId = U1.userId)
-			>= ALL(SELECT AVG(mood_rating) FROM Rating Rate GROUP BY Rate.userId)
-		OR (SELECT AVG(food_rating) FROM Rating Rate WHERE Rate.userId = U1.userId)
-			>= ALL(SELECT AVG(food_rating) FROM Rating Rate GROUP BY Rate.userId)
+--CONFIRMED
+
+SELECT U.name, U.join_date, U.reputation, R.name, R8.post_date FROM final_project.Rater U, final_project.Restaurant R, final_project.Rating R8 WHERE
+	U.userId IN (SELECT U1.userId FROM final_project.Rater U1 WHERE
+		(SELECT AVG(mood_rating) FROM final_project.Rating Rate WHERE Rate.userId = U1.userId)
+			>= ALL(SELECT AVG(mood_rating) FROM final_project.Rating Rate GROUP BY Rate.userId)
+		OR (SELECT AVG(food_rating) FROM final_project.Rating Rate WHERE Rate.userId = U1.userId)
+			>= ALL(SELECT AVG(food_rating) FROM final_project.Rating Rate GROUP BY Rate.userId))
 		AND R8.userId = U.userId AND R8.restaurantId = R.restaurantId;
 
 -- m. Find the names and reputations of the raters that rated a specific restaurant (say Restaurant Z)
@@ -137,7 +158,18 @@ SELECT U.name, U.join_date, U.reputation, R.name, R8.post_date FROM Rater U, Res
 
 -- do one ot the the or or both
 
-SELECT U.name, U.reputation, R8.comment, 
+--CONFIRMED
+
+SELECT U.name, U.reputation, R8.comment FROM final_project.Rating R8, final_project.Rater U WHERE 
+	U.userId IN (SELECT U1.userId FROM final_project.Rater U1 WHERE
+		(SELECT COUNT(*) FROM final_project.Rating Rate WHERE Rate.userId = U1.userId AND
+			Rate.restaurantId IN (SELECT R.restaurantId FROM final_project.Restaurant R WHERE
+				R.name ='Shawns Salad'))
+		>=  All(SELECT COUNT(*) FROM final_project.Rating Rate1 WHERE 
+			Rate1.restaurantId IN (SELECT R.restaurantId FROM final_project.Restaurant R WHERE
+				R.name ='Shawns Salad') GROUP BY Rate1.userId))
+	AND R8.userId = U.userId AND R8.restaurantId IN (SELECT R.restaurantId FROM final_project.Restaurant R WHERE
+				R.name ='Shawns Salad') 
 
 -- n. Find the names and emails of all raters who gave ratings that are lower than that of a rater with
 -- a name called John, in terms of the combined rating of Price, Food, Mood and Staff. (Note that
@@ -159,8 +191,17 @@ SELECT U.name, U.email FROM Rater U WHERE
 
 -- use standard deviaton
 
-SELECT U.name, U.type, U.emails, R.name, R8. 
-
+SELECT U.name, U.type, U.email, R.name, R8.food_rating, R8.price_rating, 
+	R8.mood_rating, R8.staff_rating, R8.comment FROM final_project.Rater U, final_project.Rating R8, final_project.Restaurant R WHERE
+		U.userId IN (SELECT U1.userId FROM final_project.Rater U1 GROUP BY U1.userId HAVING
+			(SELECT max(stddev) FROM(SELECT stddev(Rate.mood_rating + Rate.staff_rating + Rate.price_rating +Rate.food_rating) as stddev 
+				FROM final_project.Rating Rate WHERE Rate.userId = U1.userId GROUP BY Rate.restaurantId) as whoCares)
+			>= ALL((SELECT max(stddev) FROM (SELECT stddev(Rate1.mood_rating + Rate1.staff_rating + Rate1.price_rating +Rate1.food_rating) FROM final_project.Rating Rate1 GROUP BY Rate1.userId, Rate1.restaurantId) as whoCares)))
+		AND R8.userId = U.userId AND R8.restaurantId = R.restaurantId AND
+			R.restaurantId IN (SELECT R2.restaurantId FROM  final_project.restaurant R2 GROUP BY R2.restaurantId HAVING
+			(SELECT max(stddev) FROM(SELECT stddev(Rate2.mood_rating + Rate2.staff_rating + Rate2.price_rating +Rate2.food_rating) as stddev 
+				FROM final_project.Rating Rate2 WHERE Rate2.restaurantId = R2.restaurantId GROUP BY Rate2.restaurantId, Rate2.userId) as whoCares)
+			>= ALL((SELECT max(stddev) FROM (SELECT stddev(Rate3.mood_rating + Rate3.staff_rating + Rate3.price_rating +Rate3.food_rating) FROM final_project.Rating Rate3 GROUP BY Rate3.userId, Rate3.restaurantId) as whoCares)))
 
 
 

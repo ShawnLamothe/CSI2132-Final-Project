@@ -99,8 +99,8 @@
 
 	else if($_POST['query'] == 'E') {
 		$e_query = "SELECT R.type, MI.category, AVG(MI.price) AS average_price FROM final_project.MenuItem MI, final_project.Restaurant R GROUP BY
-  	R.type HAVING
-		R.restaurantId = (SELECT MI.restaurantId FROM final_project.MenuItem MI GROUP BY MI.category)";
+  			R.type HAVING
+		R.restaurantId IN (SELECT MI1.restaurantId FROM final_project.MenuItem MI1 GROUP BY MI1.category)";
 		$statement = pg_prepare($databaseConnection, "e_query", $e_query);
 		$result = pg_execute($databaseConnection, "e_query", array());
 

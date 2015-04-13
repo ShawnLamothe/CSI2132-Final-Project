@@ -11,7 +11,7 @@
 					<label for="type">Select Restaurant Type:</label>
 					<select class="form-control" id="type_selection"onchange="run()">
 						<?php 
-							foreach($RESTAURANT_TYPESß as $type) {
+							foreach($RESTAURANT_TYPES as $type) {
 								echo "<option value=$type>$type</option>";
 							}
 				 		?>
@@ -34,7 +34,9 @@
 			</form>
 		</div>
 	</div>
+	<br>
 	<div class="row" id="rating_results"></div>
+	<br>
 	<div class="row" id="search_results"></div>
 
 	<?php if($match['name'] == 'viewRestaurant') {  
