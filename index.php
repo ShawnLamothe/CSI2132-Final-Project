@@ -37,17 +37,22 @@
 			$router->map('GET', '/profile/', 'profile.php', 'profile');
 			$router->map('GET', '/funfacts/', 'funfacts.php', 'fun-facts');
 			$router->map('POST', '/restaurants/restaurantFind.php', 'restaurantFind.php', 'restaurantFind');
+			$router->map('POST', '/menu-item/restaurantFind.php', 'restaurantFind.php', 'm-restaurantFind');
 			$router->map('POST', '/restaurants/filterRestaurants.php', 'filterRestaurants.php', 'filterRestaurants');
+			$router->map('POST', '/restaurants/filterRestaurants.php', 'filterRestaurants.php', 'm-filterRestaurants');
 			$router->map('POST', '/restaurants/submitRating.php', 'submitRating.php', 'submitRating');
 			$router->map('POST', '/restaurants/submitMenuRating.php', 'submitMenuRating.php', 'submitMenuRating');
+			$router->map('POST', '/menu-item/submitMenuRating.php', 'submitMenuRating.php', 'm-submitMenuRating');
 			$router->map('POST', '/restaurants/', 'restaurants.php', 'viewRestaurant');
 			$router->map('POST', '/menu-item/', 'restaurants.php', 'viewMenuItem');
 			$router->map('POST', '/funfacts/queries.php', 'queries.php', 'query');
 			$router->map('POST', '/restaurants/restaurantCreate.php', 'restaurantCreate.php', 'restaurant_create');
 			$router->map('POST', '/restaurants/menuItemCreate.php', 'menuItemCreate.php', 'menu_item_create');
 			$router->map('POST', '/profile/deleteAccount.php', 'deleteAccount.php', 'delete_account');
+			$router->map('POST', '/login/deleteAccount.php', 'deleteAccount.php', 'l-delete_account');
 			$router->map('POST', '/restaurants/deleteRestaurant.php', 'deleteRestaurant.php', 'delete_restaurant');
 			$router->map('POST', '/restaurants/deleteMenuItem.php', 'deleteMenuItem.php', 'delete_menu_item');
+			$router->map('POST', '/menu-item/deleteMenuItem.php', 'deleteMenuItem.php', 'm-delete_menu_item');
 
 			/*Match the current request */
 			$match = $router->match();

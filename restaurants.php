@@ -215,6 +215,7 @@
 									<div class='col-sm-3 text-right'>
 										<form method='POST' role='form' id='<?php echo "viewMenuItem$menuItem[0]" ?>' action='<?php echo "$ABSOLUTE_PATH/menu-item/" ?>'>
 											<input type='hidden' name='menu_item_id' value='<?php echo $menuItem[0] ?>'/>
+											<input type='hidden' name='request' value='menuItem'/>
 											<button type='submit' form='<?php echo "viewMenuItem$menuItem[0]" ?>' class='btn btn-default btn-info btn-sm'>View Ratings</button>
 										</form>
 									</div>
