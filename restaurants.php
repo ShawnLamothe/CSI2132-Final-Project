@@ -5,7 +5,7 @@
  <br><br><br><br>
 <div class="container">
 	<div class="row">
-		<div class="col-sm-6">
+		<div class="col-sm-4">
 			<form role ="form" id="restaurantTypeSearchForm">
 				<div class ="form-group">
 					<label for="type">Select Restaurant Type:</label>
@@ -24,7 +24,7 @@
 				<button type='submit' form ='restaurantTypeSearchForm' class='btn btn-default btn-sm' value='restaurantTypeSearch' name='restaurantTypeSearch' id="restaurantTypeSearchButton">Search</button>
 			</form>
 		</div>
-		<div class="col-sm-6">
+		<div class="col-sm-4">
 			<form role="form" id="restaurantSearchForm" method="POST">
 				<div class="form-group">
 					<label for="restaurantSearch">Search Resraurants:</label>
@@ -32,6 +32,10 @@
 				</div>
 				<button type='submit' form ='restaurantSearchForm' class='btn btn-default btn-sm' value='restaurantSearch' name='restaurantSearch' id="restaurantSearchButton">Search</button>
 			</form>
+		</div>
+		<div class="col-sm-4 text-center">
+			<br>
+			<button type='submit' class='btn btn-default btn-primary btn-lg' data-toggle='modal' data-target='#restaurantCreateModal' id="restaurantCreate">Add Restaurant</button>
 		</div>
 	</div>
 	<br>
@@ -64,17 +68,26 @@
 		}
 	?>
 
-	<div class="row">
+	<div class="row" id="restaurantInfo">
 		<div class="row">
-			<div class="col-sm-2">
+			<div class="col-sm-3">
 				<h1><?php echo $restaurant[1];?></h1>
 			</div>
-			<div class="col-sm-10">
+			<div class="col-sm-1">
+				<br>
 				<input type='hidden' id='<?php echo "restaurantName$restaurant[0]" ?>' value="<?php echo $restaurant[1]?>"]>
 				<button type='submit' class='btn btn-primary bth-info btn-sm '
 					data-toggle='modal' data-target='#ratingModal' name='rateButton' 
 						value="<?php  echo $restaurant[0]?>" id="<?php echo 'rateButton$restuarant[0]' ?>" onclick='rateButton(this)'>Rate</button>
 			</div>
+			<div class="col-sm-8 text-left">
+				<br>
+				<input type='hidden' id='<?php echo "restaurantName$restaurant[0]" ?>' value="<?php echo $restaurant[1]?>">
+				<button type='submit' class='btn btn-danger bth-info btn-sm '
+					data-toggle='modal' data-target='#deleteRestaurantModal' name='deleteButton'
+						 value="<?php echo $restaurant[0]?>" onclick='deleteButton(this)'>Delete</button>
+			</div>
+
 		</div>
 		<div class="row">
 			<div class="col-sm-4">
@@ -156,7 +169,18 @@
 		 ?>
 		<div class="row">
 			<div class = "col-sm-12">
-				<h2>Menu</h2>
+				<div>
+					<div class="col-sm-3">
+						<h2>Menu</h2>
+					</div>
+					<div class="col-sm-9">
+						<br>
+						<input type='hidden' id='<?php echo "menuRestaurantId" ?>' value="<?php echo $restaurant[0]?>">
+						<button type='submit' class='btn btn-primary bth-info btn-sm'
+								data-toggle='modal' data-target='#menuItemCreateModal' id="<?php echo $restaurant[0]?>" onclick="sendRestaurantId(this)">Add</button>
+					</div>
+				</div>
+					
 				<table class='table table-striped table-borderd table-hover table-condensed'>
 					<thead>
 						<tr>
@@ -176,13 +200,19 @@
 							 		<div class="col-sm-6 text-left">
 							 			<?php echo $menuItem[2];?>
 							 		</div>
-							 		<div class="col-sm-4 text-right">
+							 		<div class="col-sm-2 text-right">
+							 			<input type='hidden' id='<?php echo "menuItemDelete$menuItem[0]" ?>' value="<?php echo $menuItem[2]?>"]>
+										<button type='submit' class='btn btn-danger bth-info btn-sm '
+											data-toggle='modal' data-target='#deleteMenuItemModal' name='deleteMenuItemButton' 
+												value="<?php  echo $menuItem[0]?>" id="<?php echo $menuItem[0] ?>" onclick='deleteMenuItemButton(this)'>Delete</button>
+							 		</div>
+							 		<div class="col-sm-1 text-right">
 							 			<input type='hidden' id='<?php echo "menuItem$menuItem[0]" ?>' value="<?php echo $menuItem[2]?>"]>
 										<button type='submit' class='btn btn-primary bth-info btn-sm '
 											data-toggle='modal' data-target='#menuRatingModal' name='menuRateButton' 
 												value="<?php  echo $menuItem[0]?>" id="<?php echo "menuRateButton$menuItem[0]" ?>" onclick='menuRateButton(this)'>Rate</button>
 							 		</div>
-									<div class='col-sm-2 text-right'>
+									<div class='col-sm-3 text-right'>
 										<form method='POST' role='form' id='<?php echo "viewMenuItem$menuItem[0]" ?>' action='<?php echo "$ABSOLUTE_PATH/menu-item/" ?>'>
 											<input type='hidden' name='menu_item_id' value='<?php echo $menuItem[0] ?>'/>
 											<button type='submit' form='<?php echo "viewMenuItem$menuItem[0]" ?>' class='btn btn-default btn-info btn-sm'>View Ratings</button>
@@ -345,6 +375,165 @@
 					<input type="hidden" id="menuItemId" value=""/>
 					<input class="btn btn-success" type="submit" value="Rate" id="submitRating" data-dismiss="modal" onclick="submitMenuRating()">
 					<button type="button" class="btn btn-default" data-dismiss="modal" onclick="clearStars()">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="restaurantCreateModal" role="dialog" aria-labelledby="myMenuItemCreateModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+					<div id="myMenuItemCreateModalLabel">
+						<h2>Add Restaurant</h2>
+					</div>
+				</div>
+				<div class ="modal-body">
+					<form role="form" id="menuRatingForm" method="POST">
+						<div class="form-group">
+							<label>Restaurant Name:</label>
+							<input type ="text" class='form-control' id='restaurant_name' required>
+						</div>
+						<div class ="form-group">
+							<label for="type">Select Restaurant Type:</label>
+							<select class="form-control" id="restaurant_type">
+								<?php 
+									foreach($RESTAURANT_TYPES as $type) {
+										echo "<option value=$type>$type</option>";
+									}
+						 		?>
+							 </select>
+						</div>
+						<div class="form-group">
+							<label>Website URL:</label>
+							<input type="url" class="form-control" id="restaurant_url" required>
+						</div>
+						<div>
+							<h4>Location Information:</h1>
+						</div>
+						<div class="form-group">
+							<label>Opened On:</label>
+							<input type="date" class="form-control" id="opened_on" required>
+						</div>
+						<div class="form-group">
+							<label>Street Adress: </label>
+							<input type="text" class="form-control" id="address" required>
+						</div>
+						<div class="form-group">
+							<label>Phone Number:</label>
+							<input type="text" class="form-control" id="number" required>
+						</div>
+						<div class="form-group">
+							<label>Manager</label>
+							<input type="text" class="form-control" id="manager" required>
+						</div>
+						<div class="form-group">
+							<label>Weekday Open:</label>
+							<input type="text" class="form-control" id="weekday_open" required>
+						</div>
+						<div class="form-group">
+							<label>Weekday Close:</label>
+							<input type="text" class="form-control" id="weekday_close" required>
+						</div>
+						<div class="form-group">
+							<label>Weekend Open:</label>
+							<input type="text" class="form-control" id="weekend_open" required>
+						</div>
+						<div class="form-group">
+							<label>Weekend Close:</label>
+							<input type="text" class="form-control" id="weekend_close" required>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<input type="hidden" id="menuItemId" value=""/>
+					<button class="btn btn-success" form="menuRatingForm" type="submit" value="Add" id="addRestaurant" data-dismiss="modal" onclick="add_restaurant()">Add</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="menuItemCreateModal" role="dialog" aria-labelledby="myMenuModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+					<div id="myMenuModalLabel">
+						<h2>Add a Menu Item</h2>
+					</div>
+				</div>
+				<div class ="modal-body">
+					<form role="form" id="menuItemCreateForm" method="POST">
+						<div class="form-group">
+							<label>Name:</label>
+							<input type ="text" class='form-control' id='menu_item_name' required>
+						</div>
+						<div class ="form-group">
+							<label for="type">Select Type:</label>
+							<select class="form-control" id="menu_item_type">
+								<?php 
+									foreach($MENU_ITEM_TYPE as $type) {
+										echo "<option value=$type>$type</option>";
+									}
+						 		?>
+							 </select>
+						</div>
+						<div class ="form-group">
+							<label for="type">Select Category:</label>
+							<select class="form-control" id="menu_item_category">
+								<?php 
+									foreach($MENU_ITEM_CATEGORY as $category) {
+										echo "<option value=$category>$category</option>";
+									}
+						 		?>
+							 </select>
+						</div>
+						<div class="form-group">
+							<label>Description:</label>
+							<input type="text" class="form-control" id="description" required>
+						</div>
+						<div class="form-group">
+							<label>Price:</label>
+							<input type="number" class="form-control" id="price" required>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<input type="hidden" id="menuItemId" value=""/>
+					<button class="btn btn-success" form="menuRatingForm" type="submit" value="Add" id="addMenuItem" data-dismiss="modal" onclick="add_menuItem()">Add</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="deleteRestaurantModal" role="dialog" aria-labelledby="myDeleteModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+					<div id="myDeleteMenuModalLabel">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<input type="hidden" id="restaurantDelete" value=""/>
+					<button class="btn btn-danger" form="menuRatingForm" type="submit" value="Add" id="addMenuItem" data-dismiss="modal" onclick="delete_restaurant()">Yes</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="deleteMenuItemModal" role="dialog" aria-labelledby="myDeleteMenuItemModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+					<div id="myDeleteMenuItemModalLabel">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<input type="hidden" id="menuItemDelete" value=""/>
+					<button class="btn btn-danger" form="menuRatingForm" type="submit" value="Add" id="addMenuItem" data-dismiss="modal" onclick="delete_menu_item()">Yes</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
 				</div>
 			</div>
 		</div>

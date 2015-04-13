@@ -12,7 +12,7 @@ CREATE TABLE Rater(
 	userId VARCHAR(50),
 	password VARCHAR(15) NOT NULL,
 	email VARCHAR(50) NOT NULL,
-	name VARCHAR(50),
+	name VARCHAR(50),4
 	join_date DATE NOT NULL,
 	type VARCHAR(11) DEFAULT 'online', 
 	reputation INTEGER DEFAULT 1,

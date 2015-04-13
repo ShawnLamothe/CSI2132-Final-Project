@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<?php require 'absolute_path.php'; ?>
-		<title>Insert Clever Title</title>
+		<title>Ate & Rate</title>
 		<link rel="stylesheet" type="text/css" href="<?php echo $ABSOLUTE_PATH; ?>/ratingStyle.css">
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,6 +12,8 @@
 		<?php
 
 			$RESTAURANT_TYPES = array('Indian','Burger', 'Misc', 'Health', 'Canadian', 'Bakery', 'Mexican', 'Coffee', 'Chinese', 'Thai', 'Sushi', 'Greek', 'Lebanese');
+			$MENU_ITEM_TYPE = array("food", "beverage");
+			$MENU_ITEM_CATEGORY = array("starter", "main", "dessert");
 			require 'absolute_path.php';
 
 			require 'altorouter.php';
@@ -23,13 +25,13 @@
 			/* Setup the URL routing. */
 
 			//Main routes
-			$router->map('GET', '/', 'home.php', 'home');
-			$router->map('GET', '/home/', 'home.php', 'home-home');
+			$router->map('GET', '/', 'restaurants.php', 'home');
+			$router->map('GET', '/home/', 'restaurants.php', 'home-home');
 			$router->map('GET', '/login/', 'login.php', 'login-form');
 			$router->map('POST', '/login/', '', 'login-action');
 			$router->map('GET', '/logout/', '', 'logout');
 			$router->map('GET', '/register/', 'register.php', 'register-form');
-			$router->map('POST', '/register/', 'login.php', 'register-action');
+			$router->map('POST', '/register/', 'restaurants.php', 'register-action');
 			$router->map('GET', '/restaurants/', 'restaurants.php', 'restaurants');
 			$router->map('GET', '/raters/', 'raters.php', 'raters');
 			$router->map('GET', '/profile/', 'profile.php', 'profile');
@@ -41,6 +43,11 @@
 			$router->map('POST', '/restaurants/', 'restaurants.php', 'viewRestaurant');
 			$router->map('POST', '/menu-item/', 'restaurants.php', 'viewMenuItem');
 			$router->map('POST', '/funfacts/queries.php', 'queries.php', 'query');
+			$router->map('POST', '/restaurants/restaurantCreate.php', 'restaurantCreate.php', 'restaurant_create');
+			$router->map('POST', '/restaurants/menuItemCreate.php', 'menuItemCreate.php', 'menu_item_create');
+			$router->map('POST', '/profile/deleteAccount.php', 'deleteAccount.php', 'delete_account');
+			$router->map('POST', '/restaurants/deleteRestaurant.php', 'deleteRestaurant.php', 'delete_restaurant');
+			$router->map('POST', '/restaurants/deleteMenuItem.php', 'deleteMenuItem.php', 'delete_menu_item');
 
 			/*Match the current request */
 			$match = $router->match();
@@ -128,26 +135,15 @@
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="#">Insert Clever Food Title</a>
+					<a class="navbar-brand" href="#">Ate & Rate</a>
 				</div>
 				<div>
 					<ul class="nav navbar-nav">
 						<?php 
-							if($match['target']=='home.php') {
-								echo "<li class='active'> <a>Home</a></li>";
-							}
-							else {
-								echo "<li><a href='$ABSOLUTE_PATH/home/'>Home</a></li>";
-							}
 							if($match['target']=='restaurants.php') {
 								echo "<li class='active'><a>Find a Restaurant</a></li>";
 							} else {
 								echo "<li><a href ='$ABSOLUTE_PATH/restaurants/'>Find a Restaurant</a></li>";
-							}
-							if($match['target']=='raters.php') {
-								echo "<li class='active'><a>Find a Rater</a></li>";
-							} else {
-								echo "<li><a href ='$ABSOLUTE_PATH/raters/'>Find a Rater</a></li>";
 							}
 							if($match['target']=='funfacts.php') {
 								echo "<li class='active'><a>Fun Facts</a></li>";
@@ -202,4 +198,5 @@
 			require $match['target'];
 	 	?>
 	</body>
+	<?php pg_close($databaseConnection) ?>
 </html>

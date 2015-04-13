@@ -23,6 +23,9 @@
 				</div>
 			</form>
  		</div>
+ 		<div class="row text-right" id="closeC">
+ 			<button type="submit" class='btn btn-default btn-sm' value="C" onclick='closeBox(this)'>Close</button>
+ 		</div>
  		<div class = "row" id="queryCResult"></div>
  	</div>
  	<div class="row">
@@ -38,6 +41,8 @@
 					<select class="form-control" id="select_D"></select>
 				</div>
 			</form>
+ 		<div class="row text-right" id="closeD">
+ 			<button type="submit" class='btn btn-default btn-sm' value="D" onclick='closeBox(this)'>Close</button>
  		</div>
  		<div class = "row" id="queryDResult"></div>
  	</div>
@@ -49,6 +54,10 @@
 	 		</p>
 	 		<button type="submit" class='btn btn-default btn-info btn-sm' onclick="queryE()">List</button>
  		</div>
+ 		<br>
+ 		<div class="row text-right" id="closeE">
+ 			<button type="submit" class='btn btn-default btn-sm' value="E" onclick='closeBox(this)'>Close</button>
+ 		</div>
  		<div class = "row" id="queryEResult"></div>
  	</div>
  	<div class="row">
@@ -58,6 +67,9 @@
 					  grouped by the restaurant, the specific raters and the numeric ratings they have received.
 	 		</p>
 	 		<button type="submit" class='btn btn-default btn-info btn-sm' onclick="queryF()">List</button>
+ 		</div>
+ 		<div class="row text-right" id="closeF">
+ 			<button type="submit" class='btn btn-default btn-sm' value="F" onclick='closeBox(this)'>Close</button>
  		</div>
  		<div class = "row" id="queryFResult"></div>
  	</div>
@@ -69,6 +81,10 @@
 					  food.
 	 		</p>
 	 		<button type="submit" class='btn btn-default btn-info btn-sm' onclick="queryG()">List</button>
+ 		</div>
+ 		<br>
+ 		<div class="row text-right" id="closeG">
+ 			<button type="submit" class='btn btn-default btn-sm' value="G" onclick='closeBox(this)'>Close</button>
  		</div>
  		<div class = "row" id="queryGResult"></div>
  	</div>
@@ -85,6 +101,9 @@
 					<select class="form-control" id="select_H"></select>
 				</div>
 			</form>
+ 		</div>
+ 		<div class="row text-right" id="closeH">
+ 			<button type="submit" class='btn btn-default btn-sm' value="H" onclick='closeBox(this)'>Close</button>
  		</div>
  		<div class = "row" id="queryHResult"></div>
  	</div>
@@ -108,6 +127,9 @@
 				</div>
 			</form>
  		</div>
+ 		<div class="row text-right" id="closeI">
+ 			<button type="submit" class='btn btn-default btn-sm' onclick="close('I')">Close</button>
+ 		</div>
  		<div class = "row" id="queryIResult"></div>
  	</div>
  	<div class="row">
@@ -130,6 +152,9 @@
 				</div>
 			</form>
  		</div>
+ 		<div class="row text-right" id="closeJ">
+ 			<button type="submit" class='btn btn-default btn-sm' value="J" onclick='closeBox(this)'>Close</button>
+ 		</div>
  		<div class = "row" id="queryJResult"></div>
  	</div>
 
@@ -142,6 +167,10 @@
 	 		</p>
 	 		<button type="submit" class='btn btn-default btn-info btn-sm' onclick="queryK()">List</button>
  		</div>
+ 		<br>
+ 		<div class="row text-right" id="closeK">
+ 			<button type="submit" class='btn btn-default btn-sm' value="K" onclick='closeBox(this)'>Close</button>
+ 		</div>
  		<div class = "row" id="queryKResult"></div>
  	</div>
 
@@ -153,6 +182,10 @@
 					  restaurant and the dates the ratings were done.
 	 		</p>
 	 		<button type="submit" class='btn btn-default btn-info btn-sm' onclick="queryL()">List</button>
+ 		</div>
+ 		<br>
+ 		<div class="row text-right" id="closeL">
+ 			<button type="submit" class='btn btn-default btn-sm' value="L" onclick='closeBox(this)'>Close</button>
  		</div>
  		<div class = "row" id="queryLResult"></div>
  	</div>
@@ -172,6 +205,9 @@
 				</div>
 			</form>
  		</div>
+ 		<div class="row text-right" id="closeM">
+ 			<button type="submit" class='btn btn-default btn-sm' value="M" onclick='closeBox(this)'>Close</button>
+ 		</div>
  		<div class = "row" id="queryMResult"></div>
  	</div>
 
@@ -182,7 +218,11 @@
 					  a name called John, in terms of the combined rating of Price, Food, Mood and Staff. (Note that
 					  there may be more than one rater with this name).
 	 		</p>
-	 		<button type="submit" class='btn btn-default btn-info btn-sm' onclick="queryN()">List</button>
+	 		<button type="submit" class='btn btn-default btn-info btn-sm' value="N" onclick='closeBox(this)'>List</button>
+ 		</div>
+ 		<br>
+ 		 <div class="row text-right" id="closeN">
+ 			<button type="submit" class='btn btn-default btn-sm' value='N' onclick='close()'>Close</button>
  		</div>
  		<div class = "row" id="queryNResult"></div>
  	</div>
@@ -196,6 +236,10 @@
 					  January 2015, and a 3 on 4 February 2015.  Clearly, she changes her mind quite often.
 	 		</p>
 	 		<button type="submit" class='btn btn-default btn-info btn-sm' onclick="queryO()">List</button>
+ 		</div>
+ 		<br>
+ 		<div class="row text-right" id="closeO">
+ 			<button type="submit" class='btn btn-default btn-sm' value="O" onclick='closeBox(this)'>Close</button>
  		</div>
  		<div class = "row" id="queryOResult"></div>
  	</div>

@@ -1,3 +1,4 @@
+<br><br><br><br>
 <div id="header"> Registration Form</div>
 	<form method="POST" action="">
 		<p>User Identifier: <input type="text" name="userId" id="UserId"/></p>
